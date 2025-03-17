@@ -1,6 +1,3 @@
-//Καλογερόπουλος Ιερόθεος Ορέστης, ΑΜ: 9093202100098
-/*------------------------------------------------------------------------
---------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,7 +42,6 @@ void freeTickets(struct Ticket* root);
 
 void clearAll(struct Event** root);
 
-// Έλεγχοι εγκυρότητας των δεδομένων που εισάγει ο χρήστης
 int isValidTitle(const char* title);
 int isValidDate(const char* date);
 int isValidTime(const char* time);
@@ -234,8 +230,8 @@ struct Event* createEvent(int code, const char* title, const char* date, const c
         exit(EXIT_FAILURE);
     }
     newEvent->code = code;  
-    strcpy(newEvent->title, title);  // Αντιγράφουμε τον τίτλο του event από το title στο δομή newEvent
-    strcpy(newEvent->date, date);  //Το ίδιο με παραπάνω
+    strcpy(newEvent->title, title);  
+    strcpy(newEvent->date, date);  
     strcpy(newEvent->time, time); 
     newEvent->tickets = NULL;  
     newEvent->left = newEvent->right = NULL;  
@@ -246,38 +242,38 @@ struct Event* createEvent(int code, const char* title, const char* date, const c
 struct Event* addEvent(struct Event* root, struct Event* newEvent) {
     if (!root) return newEvent;
     if (newEvent->code < root->code)
-        root->left = addEvent(root->left, newEvent); // Αν ο κωδικός είναι μικρότερος, προσθέτουμε αριστερά
+        root->left = addEvent(root->left, newEvent); 
     else if (newEvent->code > root->code)
-        root->right = addEvent(root->right, newEvent); // Αν ο κωδικός είναι μεγαλύτερος, προσθέτουμε δεξιά
+        root->right = addEvent(root->right, newEvent); 
     return root;
 }
 
 struct Event* searchEvent(struct Event* root, int code) {
-    if (!root || root->code == code) return root;  // Αν βρούμε το event ή το δέντρο είναι κενό, επιστρέφουμε το event
-    if (code < root->code) return searchEvent(root->left, code); // Αν ο κωδικός είναι μικρότερος, ψάχνουμε αριστερά
-    return searchEvent(root->right, code);  // Αν ο κωδικός είναι μεγαλύτερος, ψάχνουμε δεξιά
+    if (!root || root->code == code) return root;  
+    if (code < root->code) return searchEvent(root->left, code); 
+    return searchEvent(root->right, code); 
 } 
 
 struct Event* deleteEvent(struct Event* root, int code) {
     if (!root) return NULL;
     if (code < root->code)
-        root->left = deleteEvent(root->left, code); // Αν ο κωδικός είναι μικρότερος, διαγράφουμε αριστερά
+        root->left = deleteEvent(root->left, code); 
     else if (code > root->code)
-        root->right = deleteEvent(root->right, code); // Αν ο κωδικός είναι μεγαλύτερος, διαγράφουμε δεξιά
+        root->right = deleteEvent(root->right, code); 
     else {
-        if (!root->left) { // Αν δεν έχει αριστερό παιδί, το αντικαθιστούμε με το δεξί παιδί
+        if (!root->left) { 
             struct Event* temp = root->right;
             freeTickets(root->tickets);
             free(root);
             return temp;
-        } else if (!root->right) { { // Αν δεν έχει δεξί παιδί, το αντικαθιστούμε με το αριστερό παιδί
+        } else if (!root->right) { { 
             struct Event* temp = root->left;
             freeTickets(root->tickets);
             free(root);
             return temp;
         }
 
-        // Αν έχει και τα δύο παιδιά, βρίσκουμε το μικρότερο στο δεξί υποδέντρο για αντικατάσταση
+        
         struct Event* temp = root->right;
         while (temp && temp->left) temp = temp->left;
         root->code = temp->code;
@@ -291,7 +287,7 @@ struct Event* deleteEvent(struct Event* root, int code) {
     }
 }
 
-// Εκτύπωση όλων των events με Inorder
+
 void printEvents(struct Event* root) {
     if (!root) return;
     printEvents(root->left);
@@ -299,7 +295,7 @@ void printEvents(struct Event* root) {
     printEvents(root->right);
 }
 
-// Απελευθέρωση όλης της μνήμης που καταλαμβάνει το δέντρο των events
+
 void freeEvents(struct Event* root) {
     if (!root) return;
     freeEvents(root->left);
@@ -308,7 +304,7 @@ void freeEvents(struct Event* root) {
     free(root);
 }
 
-//Ιδιες εξηγήσεις με παραπάνω, σε ότι αφορά τις συναρτήσεις διαχείρησης των εισητηρίων
+
 struct Ticket* createTicket(char section, int seatNumber, const char* afm, const char* firstName, const char* lastName) {
     struct Ticket* newTicket = (struct Ticket*)malloc(sizeof(struct Ticket));
     if (!newTicket) {
