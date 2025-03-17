@@ -1,3 +1,4 @@
+//Event ticket management program in the form of a binary tree, using structures
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
